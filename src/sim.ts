@@ -1,6 +1,3 @@
-import { isPromise } from "util/types";
-import { getDefaultNormalizer } from "@testing-library/react";
-
 export class Engineer {
     constructor(public skill: number) {
     }
