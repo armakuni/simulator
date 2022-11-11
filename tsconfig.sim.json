@@ -1,5 +1,5 @@
 {
-    "include": [
-        "src/sim.ts"
-    ]
+  "include": [
+    "src/sim.ts"
+  ]
 }
