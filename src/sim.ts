@@ -47,8 +47,14 @@ export function isAssigned(engineer: Engineer, board: Board) {
     return board.inProgress.some((item) => item.engineersAssigned.includes(engineer));
 }
 
-function assignWorkToFreeEngineers(engineers: Engineer[], board: Board): void {
+export function assignWorkToFreeEngineers(engineers: Engineer[], board: Board): void {
     const availableEngineers = engineers.filter((engineer) => !isAssigned(engineer, board))
 
-    throw new Error("todo")
+    for (const engineer of availableEngineers) {
+        const wi = board.todo.shift();
+        if (wi) {
+            board.inProgress.push(wi);
+            wi.engineersAssigned.push(engineer)
+        }
+    }
 }
