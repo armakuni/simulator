@@ -1,51 +1,57 @@
-class Engineer {
-    skill: number
+import { isPromise } from "util/types";
+import { getDefaultNormalizer } from "@testing-library/react";
 
-    constructor(skill) {
-        this.skill = skill;
+export class Engineer {
+    constructor(public skill: number) {
     }
 }
 
-type State = "BACKLOG" | "WIP" | "DONE" | "ACCEPTED";
+export class WorkItem {
+    public amountEffortSpentCumulative: number = 0;
 
-class WorkItem {
-    effort: number
-    amountEffortSpentCumulative: number
-    state: State
-    engineersAssigned: Engineer[]
-
-    constructor(effort) {
-        this.effort = effort;
+    constructor(
+        public effort: number,
+        public engineersAssigned: Engineer[] = []
+    ) {
     }
-
 }
 
-class WIP {
-    workitem: WorkItem
-    engineers: Engineer[]
+export class Board {
+    constructor(
+        public todo: WorkItem[] = [],
+        public inProgress: WorkItem[] = [],
+        public done: WorkItem[] = [],
+    ) {
+    }
+
+    public allWorkItemsAreDone(): boolean {
+        return !(this.todo.length || this.inProgress.length)
+    }
 }
 
 function sim() {
-    var wi = new WorkItem(10);
+    const board = new Board()
 
-    var engineer = new Engineer(2);
+    const engineer = new Engineer(2);
+    const engineers = [engineer];
 
-    var workitems : WorkItem[] = [];
-    workitems.push(wi);
+    const wi = new WorkItem(10);
+    board.todo.push(wi);
 
-    var wip : WIP[] = [];
-
-    while (!checkWorkItemsAreDone(workitems)) {
-        assignWorkToFreeEngineers();
-        progressWork();
-        updateWorkItemState();
+    while (!board.allWorkItemsAreDone()) {
+        assignWorkToFreeEngineers(engineers, board);
+        // progressWork();
+        // updateWorkItemState();
     }
 }
 
-function checkWorkItemsAreDone (workItems : WorkItem[]) : boolean {
-    return workItems.every((wi) => wi.state == "DONE");
+
+export function isAssigned(engineer: Engineer, board: Board) {
+    return board.inProgress.some((item) => item.engineersAssigned.includes(engineer));
 }
 
-function assignWorkToFreeEngineers(engineers: Engineer[], workitems: WorkItem[], wip: WIP[]) {
+function assignWorkToFreeEngineers(engineers: Engineer[], board: Board): void {
+    const availableEngineers = engineers.filter((engineer) => !isAssigned(engineer, board))
 
+    throw new Error("todo")
 }
